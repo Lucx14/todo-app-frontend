@@ -1,56 +1,40 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
+import apiGetTodos from '../api/todos';
 
 const Wrapper = styled.div`
   background-color: #e4d5bc;
   border: solid 1px black;
   display: flex;
   justify-content: center;
+  padding: 20px;
 `;
 
 const ListWrapper = styled.div`
   border: 1px solid red;
+  padding: 20px;
 `;
 
 const ItemsWrapper = styled.div`
   border: 1px solid blue;
+  padding: 20px;
 `;
 
-const initialState = {
-  todos: {
-    collection: [
-      {
-        id: 1,
-        title: 'Stuff to do',
-        created_by: '1',
-        created_at: '2020-05-12T10:02:11.964Z',
-        updated_at: '2020-05-12T10:02:11.964Z',
-      },
-      {
-        id: 2,
-        title: 'Today',
-        created_by: '1',
-        created_at: '2020-05-12T10:02:11.964Z',
-        updated_at: '2020-05-12T10:02:11.964Z',
-      },
-      {
-        id: 3,
-        title: 'Shopping list',
-        created_by: '1',
-        created_at: '2020-05-12T10:02:11.964Z',
-        updated_at: '2020-05-12T10:02:11.964Z',
-      },
-    ],
-  },
-};
-
 const TodoApp = () => {
-  const [todos] = useState(initialState);
+  const [todos, setTodos] = useState(null);
 
-  // console.log(todos.todos.collection);
-  const list = todos.todos.collection.map((todo) => {
-    return <p key={todo.id}>{todo.title}: 9</p>;
-  });
+  useEffect(() => {
+    apiGetTodos().then((result) => {
+      setTodos(result);
+    });
+  }, []);
+
+  let list;
+  if (todos) {
+    list = todos.map((todo) => {
+      return <p key={todo.id}>{todo.title}: 9</p>;
+    });
+  }
 
   return (
     <Wrapper>
