@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import apiGetTodos from '../api/todos';
+import useTodosApi from '../../hooks/useTodoApi';
+import Items from './Items/Items';
+import { deleteTodo } from '../../api/todos';
+import Todo from './Todo/Todo';
 
 const Wrapper = styled.div`
   background-color: #e4d5bc;
@@ -9,49 +12,81 @@ const Wrapper = styled.div`
   justify-content: center;
   padding: 20px;
 `;
-
 const ListWrapper = styled.div`
   border: 1px solid red;
   padding: 20px;
 `;
-
 const ItemsWrapper = styled.div`
   border: 1px solid blue;
   padding: 20px;
 `;
 
+const TitlesWrapper = styled.div`
+  border: 1px solid black;
+`;
+
 const TodoApp = () => {
-  const [todos, setTodos] = useState(null);
+  const [selectedTodo] = useState(0);
+  const [todos, getTodos, addTodo, deleteTodo, loading, error] = useTodosApi();
 
   useEffect(() => {
-    apiGetTodos().then((result) => {
-      setTodos(result);
-    });
-  }, []);
+    getTodos();
+  }, [getTodos]);
+
+  const addTodoHandler = () => {
+    addTodo();
+  };
+
+  const deleteTodoHandler = (event) => {
+    console.log(event.target.value);
+    deleteTodo(event.target.value);
+  };
+
+  const onTitleUpdate = (title) => {
+    console.log('UPDATING THE TITLE!!!');
+  };
 
   let list;
-  if (todos) {
+  if (!loading) {
     list = todos.map((todo) => {
-      return <p key={todo.id}>{todo.title}: 9</p>;
+      return (
+        <>
+          {/* <li
+            onClick={deleteTodoHandler}
+            key={todo.id}
+            value={todo.id}
+          > */}
+          <Todo
+            id={todo.id}
+            title={todo.title}
+            submitted={onTitleUpdate}
+            count={todo.item_count || 0}
+          />
+          {/* </li> */}
+        </>
+      );
     });
+  }
+
+  let items;
+  if (!loading) {
+    items = todos[selectedTodo].items;
   }
 
   return (
     <Wrapper>
       <ListWrapper>
         <h2>My lists</h2>
-        {list}
-        <p>+ todo</p>
+        {/* <ul>{list}</ul> */}
+        <TitlesWrapper>{list}</TitlesWrapper>
+        <button type="button" onClick={addTodoHandler}>
+          + todo
+        </button>
       </ListWrapper>
       <ItemsWrapper>
-        <h2>Items view</h2>
-        <p>Stuff to do: 9</p>
-        <p>78 completed: show/hide</p>
-        <ul>
-          <li>Book dentist</li>
-          <li>Buy milk</li>
-          <li>Book holidays</li>
-        </ul>
+        {!loading && (
+          <Items items={items} todoTitle={todos[selectedTodo].title} />
+        )}
       </ItemsWrapper>
     </Wrapper>
   );
