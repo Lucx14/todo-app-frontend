@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const jwt =
-  'eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo3LCJleHAiOjE1ODk2NDUwODB9.JGyq75s5zapypso4MjNUB-buYxf4ZQLcLVxRpmN2s7g';
+  'eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo3LCJleHAiOjE1ODk4ODk3ODV9.2kjVBwQq6dQ7wWuJCwT1IXAUQhB7xwL-2yF-qskVEKE';
 const instance = axios.create({
   baseURL: 'https://mysterious-reaches-53245.herokuapp.com/',
   headers: {

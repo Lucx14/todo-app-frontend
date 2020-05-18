@@ -28,3 +28,11 @@ export async function updateTodo(id, title) {
 export async function deleteTodo(id) {
   return axios.delete(`todos/${id}`).then(getData);
 }
+
+export async function addItem(todoId, itemText) {
+  return axios
+    .post(`todos/${todoId}/items`, {
+      name: itemText,
+    })
+    .then(getData);
+}

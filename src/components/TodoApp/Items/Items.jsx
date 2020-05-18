@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const Items = (props) => {
-  const { items, todoTitle } = props;
+  const { items, todoTitle, clicked } = props;
 
   const itemList = items.map((item) => {
     return <li key={item.id}>{item.name}</li>;
@@ -10,7 +10,9 @@ const Items = (props) => {
 
   return (
     <div>
-      <h3>+ Item</h3>
+      <button type="button" onClick={clicked}>
+        +
+      </button>
       <h3>{todoTitle}</h3>
       <h3>{items.length}</h3>
       <div>{itemList}</div>
@@ -30,6 +32,7 @@ Items.propTypes = {
     })
   ).isRequired,
   todoTitle: PropTypes.string.isRequired,
+  clicked: PropTypes.func.isRequired,
 };
 
 export default Items;

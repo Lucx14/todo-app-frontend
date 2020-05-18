@@ -2,3 +2,13 @@ export const FETCH_TODOS = 'FETCH_TODOS';
 export const FETCH_TODOS_START = 'FETCH_TODOS_START';
 export const FETCH_TODOS_SUCCESS = 'FETCH_TODOS_SUCCESS';
 export const FETCH_TODOS_FAIL = 'FETCH_TODOS_FAIL';
+
+export const ADD_LIST = 'ADD_LIST';
+export const ADD_LIST_START = 'ADD_LIST_START';
+export const ADD_LIST_SUCCESS = 'ADD_LIST_SUCCESS';
+export const ADD_LIST_FAIL = 'ADD_LIST_FAIL';
+
+export const ADD_ITEM = 'ADD_ITEM';
+export const ADD_ITEM_START = 'ADD_ITEM_START';
+export const ADD_ITEM_SUCCESS = 'ADD_ITEM_SUCCESS';
+export const ADD_ITEM_FAIL = 'ADD_ITEM_FAIL';
