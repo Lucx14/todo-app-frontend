@@ -6,6 +6,7 @@ import {
   addItem as apiAddItem,
   deleteTodo as apiDeleteTodo,
   updateItemStatus as apiUpdateItemStatus,
+  deleteItem as apiDeleteItem,
 } from '../../api/todos';
 
 export default function* fetchTodosSaga() {
@@ -44,7 +45,17 @@ export function* addListSaga() {
   yield put(actions.addListStart());
 
   try {
-    const response = yield apiAddTodo('New List!');
+    const response = yield apiAddTodo('New List!').then((res) => {
+      return {
+        id: res.id,
+        title: res.title,
+        created_at: res.created_at,
+        updated_at: res.updated_at,
+        created_by: res.created_by,
+        item_count: res.items.length,
+        items: res.items,
+      };
+    });
     yield put(actions.addListSuccess(response));
   } catch (err) {
     yield put(actions.addListFail(err));
@@ -87,5 +98,16 @@ export function* updateItemStatusSaga(action) {
     );
   } catch (err) {
     yield put(actions.updateItemStatusFail(err));
+  }
+}
+
+export function* deleteItemSaga(action) {
+  yield put(actions.removeItemStart());
+
+  try {
+    yield apiDeleteItem(action.todoId, action.itemId);
+    yield put(actions.removeItemSuccess(action.todoId, action.itemId));
+  } catch (err) {
+    yield put(actions.removeItemFail(err));
   }
 }

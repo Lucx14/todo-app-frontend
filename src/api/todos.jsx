@@ -37,10 +37,11 @@ export async function addItem(todoId, itemText) {
     .then(getData);
 }
 
+export async function deleteItem(todoId, itemId) {
+  return axios.delete(`todos/${todoId}/items/${itemId}`).then(getData);
+}
+
 export async function updateItemStatus(todoId, itemId, status) {
-  // console.log(todoId);
-  // console.log(itemId);
-  // console.log(status);
   return axios
     .put(`todos/${todoId}/items/${itemId}`, {
       done: status,

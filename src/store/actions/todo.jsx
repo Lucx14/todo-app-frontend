@@ -101,3 +101,25 @@ export const updateItemStatusFail = (error) => ({
   type: actionTypes.UPDATE_ITEM_STATUS_FAIL,
   error,
 });
+
+// REMOVE ITEM
+export const removeItem = (todoId, itemId) => ({
+  type: actionTypes.REMOVE_ITEM,
+  todoId,
+  itemId,
+});
+
+export const removeItemStart = () => ({
+  type: actionTypes.REMOVE_ITEM_START,
+});
+
+export const removeItemSuccess = (todoId, itemId) => ({
+  type: actionTypes.REMOVE_ITEM_SUCCESS,
+  todoId,
+  itemId,
+});
+
+export const removeItemFail = (error) => ({
+  type: actionTypes.REMOVE_ITEM_FAIL,
+  error,
+});

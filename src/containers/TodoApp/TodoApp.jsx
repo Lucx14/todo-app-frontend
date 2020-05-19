@@ -31,6 +31,7 @@ const Todos = (props) => {
     onRemoveTodo,
     onUpdateItemStatus,
     onAddItem,
+    onRemoveItem,
   } = props;
   const [selectedTodo, setSelectedTodo] = useState({});
 
@@ -52,6 +53,10 @@ const Todos = (props) => {
     onRemoveTodo(id);
   };
 
+  const removeItemHandler = (itemId) => {
+    onRemoveItem(selectedTodo.id, itemId);
+  };
+
   const addItemHandler = (itemText) => {
     onAddItem(selectedTodo.id, itemText);
   };
@@ -69,7 +74,7 @@ const Todos = (props) => {
             id={todo.id}
             title={todo.title}
             submitted={() => {}}
-            count={todo.item_count || 0}
+            count={todo.item_count}
             clicked={selectList}
             deleteTodo={removeTodoHandler}
           />
@@ -100,6 +105,7 @@ const Todos = (props) => {
             todoTitle={selectedTodo.title}
             clicked={addItemHandler}
             toggleItemComplete={toggleItemCompleteHandler}
+            deleteItem={removeItemHandler}
           />
         )}
       </ItemsWrapper>
@@ -121,6 +127,8 @@ const mapDispatchToProps = (dispatch) => ({
   onRemoveTodo: (todoId) => dispatch(actions.removeList(todoId)),
   onUpdateItemStatus: (todoId, itemId, itemStatus) =>
     dispatch(actions.updateItemStatus(todoId, itemId, itemStatus)),
+  onRemoveItem: (todoId, itemId) =>
+    dispatch(actions.removeItem(todoId, itemId)),
 });
 
 Todos.propTypes = {
@@ -148,6 +156,7 @@ Todos.propTypes = {
   onAddItem: PropTypes.func.isRequired,
   onRemoveTodo: PropTypes.func.isRequired,
   onUpdateItemStatus: PropTypes.func.isRequired,
+  onRemoveItem: PropTypes.func.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Todos);

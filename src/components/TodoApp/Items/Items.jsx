@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { sortById } from '../../../shared/utility';
 
 const Items = (props) => {
-  const { items, todoTitle, clicked, toggleItemComplete } = props;
+  const { items, todoTitle, clicked, toggleItemComplete, deleteItem } = props;
   const [formVisible, setFormVisible] = useState(false);
   const [itemValue, setItemValue] = useState('');
 
@@ -13,7 +13,9 @@ const Items = (props) => {
 
   const submitNewItem = (event) => {
     event.preventDefault();
-    clicked(itemValue);
+    if (itemValue.length > 0) {
+      clicked(itemValue);
+    }
     setFormVisible(false);
     setItemValue('');
   };
@@ -24,6 +26,10 @@ const Items = (props) => {
 
   const clickButton = (event) => {
     toggleItemComplete(parseInt(event.target.value, 10), event.target.checked);
+  };
+
+  const deleteClicked = (event) => {
+    deleteItem(parseInt(event.target.value, 10));
   };
 
   const itemList = sortById(items).map((item) => {
@@ -39,6 +45,9 @@ const Items = (props) => {
         <label htmlFor="toggleItem">
           {item.name}: Done: {item.done ? 'true' : 'false'}
         </label>
+        <button type="button" onClick={deleteClicked} value={item.id}>
+          x
+        </button>
       </li>
     );
   });
@@ -81,6 +90,7 @@ Items.propTypes = {
   todoTitle: PropTypes.string.isRequired,
   clicked: PropTypes.func.isRequired,
   toggleItemComplete: PropTypes.func.isRequired,
+  deleteItem: PropTypes.func.isRequired,
 };
 
 export default Items;
