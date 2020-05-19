@@ -41,11 +41,11 @@ export default function* fetchTodosSaga() {
   }
 }
 
-export function* addListSaga() {
+export function* addListSaga(action) {
   yield put(actions.addListStart());
 
   try {
-    const response = yield apiAddTodo('New List!').then((res) => {
+    const response = yield apiAddTodo(action.listTitle).then((res) => {
       return {
         id: res.id,
         title: res.title,

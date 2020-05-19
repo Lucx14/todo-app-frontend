@@ -34,7 +34,7 @@ const Items = (props) => {
 
   const itemList = sortById(items).map((item) => {
     return (
-      <li key={item.id}>
+      <div key={item.id}>
         <input
           type="checkbox"
           id="toggleItem"
@@ -48,7 +48,7 @@ const Items = (props) => {
         <button type="button" onClick={deleteClicked} value={item.id}>
           x
         </button>
-      </li>
+      </div>
     );
   });
 

@@ -20,8 +20,9 @@ export const fetchTodos = () => ({
 });
 
 // ADD LIST
-export const addList = () => ({
+export const addList = (listTitle) => ({
   type: actionTypes.ADD_LIST,
+  listTitle,
 });
 
 export const addListStart = () => ({

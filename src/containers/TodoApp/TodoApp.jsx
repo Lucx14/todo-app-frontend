@@ -23,6 +23,10 @@ const ItemsWrapper = styled.div`
   padding: 20px;
 `;
 
+const UL = styled.div`
+  /* list-style-type: none; */
+`;
+
 const Todos = (props) => {
   const {
     todos,
@@ -34,6 +38,8 @@ const Todos = (props) => {
     onRemoveItem,
   } = props;
   const [selectedTodo, setSelectedTodo] = useState({});
+  const [formVisible, setFormVisible] = useState(false);
+  const [listTitleValue, setListTitleValue] = useState('');
 
   useEffect(() => {
     onfetchTodos();
@@ -46,11 +52,14 @@ const Todos = (props) => {
   };
 
   const addTodoHandler = () => {
-    onAddTodo();
+    setFormVisible(true);
   };
 
   const removeTodoHandler = (id) => {
     onRemoveTodo(id);
+    if (id === selectedTodo.id) {
+      setSelectedTodo({});
+    }
   };
 
   const removeItemHandler = (itemId) => {
@@ -65,11 +74,25 @@ const Todos = (props) => {
     onUpdateItemStatus(selectedTodo.id, itemId, itemStatus);
   };
 
+  const titleValueUpdateHandler = (event) => {
+    setListTitleValue(event.target.value);
+  };
+
+  const submitNewList = (event) => {
+    event.preventDefault();
+    if (listTitleValue.length > 0) {
+      onAddTodo(listTitleValue);
+    }
+
+    setFormVisible(false);
+    setListTitleValue('');
+  };
+
   let list;
   if (todos) {
     list = todos.map((todo) => {
       return (
-        <li key={todo.id}>
+        <div key={todo.id}>
           <Todo
             id={todo.id}
             title={todo.title}
@@ -78,7 +101,7 @@ const Todos = (props) => {
             clicked={selectList}
             deleteTodo={removeTodoHandler}
           />
-        </li>
+        </div>
       );
     });
   }
@@ -92,9 +115,20 @@ const Todos = (props) => {
     <Wrapper>
       <ListWrapper>
         <h2>My lists</h2>
-        <h2>{list}</h2>
+        <UL>{list}</UL>
+        {formVisible && (
+          <form onSubmit={submitNewList}>
+            <input
+              type="text"
+              value={listTitleValue}
+              onChange={titleValueUpdateHandler}
+              name="new-list"
+              placeholder="Add title..."
+            />
+          </form>
+        )}
         <button type="button" onClick={addTodoHandler}>
-          + todo
+          + List
         </button>
       </ListWrapper>
       <ItemsWrapper>
@@ -122,7 +156,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => ({
   onfetchTodos: () => dispatch(actions.fetchTodos()),
-  onAddTodo: () => dispatch(actions.addList()),
+  onAddTodo: (listTitle) => dispatch(actions.addList(listTitle)),
   onAddItem: (todoId, itemName) => dispatch(actions.addItem(todoId, itemName)),
   onRemoveTodo: (todoId) => dispatch(actions.removeList(todoId)),
   onUpdateItemStatus: (todoId, itemId, itemStatus) =>
