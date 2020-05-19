@@ -24,7 +24,14 @@ const ItemsWrapper = styled.div`
 `;
 
 const Todos = (props) => {
-  const { todos, onfetchTodos, onAddTodo, onRemoveTodo, onAddItem } = props;
+  const {
+    todos,
+    onfetchTodos,
+    onAddTodo,
+    onRemoveTodo,
+    onUpdateItemStatus,
+    onAddItem,
+  } = props;
   const [selectedTodo, setSelectedTodo] = useState({});
 
   useEffect(() => {
@@ -47,6 +54,10 @@ const Todos = (props) => {
 
   const addItemHandler = (itemText) => {
     onAddItem(selectedTodo.id, itemText);
+  };
+
+  const toggleItemCompleteHandler = (itemId, itemStatus) => {
+    onUpdateItemStatus(selectedTodo.id, itemId, itemStatus);
   };
 
   let list;
@@ -88,6 +99,7 @@ const Todos = (props) => {
             todoId={selectedTodo.id}
             todoTitle={selectedTodo.title}
             clicked={addItemHandler}
+            toggleItemComplete={toggleItemCompleteHandler}
           />
         )}
       </ItemsWrapper>
@@ -107,6 +119,8 @@ const mapDispatchToProps = (dispatch) => ({
   onAddTodo: () => dispatch(actions.addList()),
   onAddItem: (todoId, itemName) => dispatch(actions.addItem(todoId, itemName)),
   onRemoveTodo: (todoId) => dispatch(actions.removeList(todoId)),
+  onUpdateItemStatus: (todoId, itemId, itemStatus) =>
+    dispatch(actions.updateItemStatus(todoId, itemId, itemStatus)),
 });
 
 Todos.propTypes = {
@@ -133,6 +147,7 @@ Todos.propTypes = {
   onAddTodo: PropTypes.func.isRequired,
   onAddItem: PropTypes.func.isRequired,
   onRemoveTodo: PropTypes.func.isRequired,
+  onUpdateItemStatus: PropTypes.func.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Todos);

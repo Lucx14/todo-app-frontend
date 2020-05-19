@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
 const Items = (props) => {
-  const { items, todoTitle, clicked } = props;
+  const { items, todoTitle, clicked, toggleItemComplete } = props;
   const [formVisible, setFormVisible] = useState(false);
   const [itemValue, setItemValue] = useState('');
 
@@ -21,8 +21,25 @@ const Items = (props) => {
     setFormVisible(true);
   };
 
+  const clickButton = (event) => {
+    toggleItemComplete(event.target.value, event.target.checked);
+  };
+
   const itemList = items.map((item) => {
-    return <li key={item.id}>{item.name}</li>;
+    return (
+      <li key={item.id}>
+        <input
+          type="checkbox"
+          id="toggleItem"
+          onClick={clickButton}
+          value={item.id}
+          defaultChecked={item.done}
+        />
+        <label htmlFor="toggleItem">
+          {item.name}: Done: {item.done ? 'true' : 'false'}
+        </label>
+      </li>
+    );
   });
 
   return (
@@ -62,6 +79,7 @@ Items.propTypes = {
   ).isRequired,
   todoTitle: PropTypes.string.isRequired,
   clicked: PropTypes.func.isRequired,
+  toggleItemComplete: PropTypes.func.isRequired,
 };
 
 export default Items;

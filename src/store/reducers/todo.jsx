@@ -66,6 +66,36 @@ const addItemSuccess = (state, action) => {
 
 const addItemFail = (state) => updateObject(state, { loading: false });
 
+// Update an items status
+const updateItemStatusStart = (state) => updateObject(state, { loading: true });
+const updateItemStatusSuccess = (state, action) => {
+  return updateObject(state, {
+    todos: state.todos.map((todo) => {
+      if (todo.id === action.todoId) {
+        return {
+          ...todo,
+          items: todo.items.map((item) => {
+            if (item.id === action.itemId) {
+              return {
+                ...item,
+                done: action.itemStatus,
+              };
+            }
+            return {
+              ...item,
+            };
+          }),
+        };
+      }
+      return {
+        ...todo,
+      };
+    }),
+    loading: false,
+  });
+};
+const updateItemStatusFail = (state) => updateObject(state, { loading: false });
+
 // Reducer
 const reducer = (state = initialState, action) => {
   switch (action.type) {
@@ -93,6 +123,12 @@ const reducer = (state = initialState, action) => {
       return removeListSuccess(state, action);
     case actionTypes.REMOVE_LIST_FAIL:
       return removeListFail(state, action);
+    case actionTypes.UPDATE_ITEM_STATUS_START:
+      return updateItemStatusStart(state, action);
+    case actionTypes.UPDATE_ITEM_STATUS_SUCCESS:
+      return updateItemStatusSuccess(state, action);
+    case actionTypes.UPDATE_ITEM_STATUS_FAIL:
+      return updateItemStatusFail(state, action);
     default:
       return state;
   }

@@ -15,4 +15,8 @@ export {
   removeListStart,
   removeListSuccess,
   removeListFail,
+  updateItemStatus,
+  updateItemStatusStart,
+  updateItemStatusSuccess,
+  updateItemStatusFail,
 } from './todo';

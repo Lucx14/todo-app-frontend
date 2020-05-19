@@ -77,3 +77,27 @@ export const addItemFail = (error) => ({
   type: actionTypes.ADD_ITEM_FAIL,
   error,
 });
+
+// UPDATE ITEM STATUS
+export const updateItemStatus = (todoId, itemId, itemStatus) => ({
+  type: actionTypes.UPDATE_ITEM_STATUS,
+  todoId,
+  itemId,
+  itemStatus,
+});
+
+export const updateItemStatusStart = () => ({
+  type: actionTypes.UPDATE_ITEM_STATUS_START,
+});
+
+export const updateItemStatusSuccess = (todoId, itemId, itemStatus) => ({
+  type: actionTypes.UPDATE_ITEM_STATUS_SUCCESS,
+  todoId,
+  itemId,
+  itemStatus,
+});
+
+export const updateItemStatusFail = (error) => ({
+  type: actionTypes.UPDATE_ITEM_STATUS_FAIL,
+  error,
+});

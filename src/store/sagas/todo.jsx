@@ -5,6 +5,7 @@ import {
   addTodo as apiAddTodo,
   addItem as apiAddItem,
   deleteTodo as apiDeleteTodo,
+  updateItemStatus as apiUpdateItemStatus,
 } from '../../api/todos';
 
 export default function* fetchTodosSaga() {
@@ -69,5 +70,22 @@ export function* deleteListSaga(action) {
     yield put(actions.removeListSuccess(action.listId));
   } catch (err) {
     yield put(actions.removeListFail(err));
+  }
+}
+
+export function* updateItemStatusSaga(action) {
+  yield put(actions.updateItemStatusStart());
+
+  try {
+    yield apiUpdateItemStatus(action.todoId, action.itemId, action.itemStatus);
+    yield put(
+      actions.updateItemStatusSuccess(
+        action.todoId,
+        action.itemId,
+        action.itemStatus
+      )
+    );
+  } catch (err) {
+    yield put(actions.updateItemStatusFail(err));
   }
 }
