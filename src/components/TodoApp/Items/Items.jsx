@@ -1,8 +1,25 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
 const Items = (props) => {
   const { items, todoTitle, clicked } = props;
+  const [formVisible, setFormVisible] = useState(false);
+  const [itemValue, setItemValue] = useState('');
+
+  const itemUpdateValueHandler = (event) => {
+    setItemValue(event.target.value);
+  };
+
+  const submitNewItem = (event) => {
+    event.preventDefault();
+    clicked(itemValue);
+    setFormVisible(false);
+    setItemValue('');
+  };
+
+  const showForm = () => {
+    setFormVisible(true);
+  };
 
   const itemList = items.map((item) => {
     return <li key={item.id}>{item.name}</li>;
@@ -10,12 +27,24 @@ const Items = (props) => {
 
   return (
     <div>
-      <button type="button" onClick={clicked}>
+      <button type="button" onClick={showForm}>
         +
       </button>
       <h3>{todoTitle}</h3>
       <h3>{items.length}</h3>
       <div>{itemList}</div>
+      {formVisible && (
+        <form onSubmit={submitNewItem}>
+          <input
+            type="text"
+            value={itemValue}
+            onChange={itemUpdateValueHandler}
+            name="new-item"
+            placeholder="Add item...."
+          />
+        </form>
+      )}
+      {/* can also put an invisible button here later when you click form appears! */}
     </div>
   );
 };

@@ -24,7 +24,7 @@ const ItemsWrapper = styled.div`
 `;
 
 const Todos = (props) => {
-  const { todos, onfetchTodos, onAddTodo, onAddItem } = props;
+  const { todos, onfetchTodos, onAddTodo, onRemoveTodo, onAddItem } = props;
   const [selectedTodo, setSelectedTodo] = useState({});
 
   useEffect(() => {
@@ -41,8 +41,12 @@ const Todos = (props) => {
     onAddTodo();
   };
 
-  const addItemHandler = () => {
-    onAddItem(selectedTodo.id, 'NEW TEST ITEM!!!');
+  const removeTodoHandler = (id) => {
+    onRemoveTodo(id);
+  };
+
+  const addItemHandler = (itemText) => {
+    onAddItem(selectedTodo.id, itemText);
   };
 
   let list;
@@ -56,6 +60,7 @@ const Todos = (props) => {
             submitted={() => {}}
             count={todo.item_count || 0}
             clicked={selectList}
+            deleteTodo={removeTodoHandler}
           />
         </li>
       );
@@ -101,6 +106,7 @@ const mapDispatchToProps = (dispatch) => ({
   onfetchTodos: () => dispatch(actions.fetchTodos()),
   onAddTodo: () => dispatch(actions.addList()),
   onAddItem: (todoId, itemName) => dispatch(actions.addItem(todoId, itemName)),
+  onRemoveTodo: (todoId) => dispatch(actions.removeList(todoId)),
 });
 
 Todos.propTypes = {
@@ -126,6 +132,7 @@ Todos.propTypes = {
   onfetchTodos: PropTypes.func.isRequired,
   onAddTodo: PropTypes.func.isRequired,
   onAddItem: PropTypes.func.isRequired,
+  onRemoveTodo: PropTypes.func.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Todos);

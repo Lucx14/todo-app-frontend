@@ -38,6 +38,25 @@ export const addListFail = (error) => ({
   error,
 });
 
+// REMOVE LIST
+export const removeList = (listId) => ({
+  type: actionTypes.REMOVE_LIST,
+  listId,
+});
+
+export const removeListStart = () => ({
+  type: actionTypes.REMOVE_LIST_START,
+});
+
+export const removeListSuccess = (listId) => ({
+  type: actionTypes.REMOVE_LIST_SUCCESS,
+  listId,
+});
+
+export const removeListFail = () => ({
+  type: actionTypes.REMOVE_LIST_FAIL,
+});
+
 // ADD ITEM
 export const addItem = (todoId, itemName) => ({
   type: actionTypes.ADD_ITEM,

@@ -12,3 +12,8 @@ export const ADD_ITEM = 'ADD_ITEM';
 export const ADD_ITEM_START = 'ADD_ITEM_START';
 export const ADD_ITEM_SUCCESS = 'ADD_ITEM_SUCCESS';
 export const ADD_ITEM_FAIL = 'ADD_ITEM_FAIL';
+
+export const REMOVE_LIST = 'REMOVE_LIST';
+export const REMOVE_LIST_START = 'REMOVE_LIST_START';
+export const REMOVE_LIST_SUCCESS = 'REMOVE_LIST_SUCCESS';
+export const REMOVE_LIST_FAIL = 'REMOVE_LIST_FAIL';

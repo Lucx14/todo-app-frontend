@@ -7,26 +7,26 @@ const Wrapper = styled.button`
 `;
 
 const Todo = (props) => {
-  const { title, id, count, clicked } = props;
+  const { title, id, count, clicked, deleteTodo } = props;
   const [, setTodoTitle] = useState('');
 
   useEffect(() => {
     setTodoTitle(title);
   }, [title]);
 
-  // const todoChangedHandler = (event) => {
-  //   setTodoTitle(event.target.value);
-  // };
-
-  // const submitHandler = (event) => {
-  //   event.preventDefault();
-  //   submitted(todoTitle);
-  // };
+  const deleteClicked = () => {
+    deleteTodo(id);
+  };
 
   return (
-    <Wrapper onClick={clicked} value={id}>
-      Icon {title} {count}
-    </Wrapper>
+    <>
+      <Wrapper onClick={clicked} value={id}>
+        Icon {title} {count}
+      </Wrapper>
+      <button type="button" onClick={deleteClicked}>
+        x
+      </button>
+    </>
   );
 };
 
@@ -35,6 +35,7 @@ Todo.propTypes = {
   id: PropTypes.number.isRequired,
   count: PropTypes.number.isRequired,
   clicked: PropTypes.func.isRequired,
+  deleteTodo: PropTypes.func.isRequired,
 };
 
 export default Todo;

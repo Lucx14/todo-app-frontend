@@ -25,6 +25,15 @@ const addListSuccess = (state, action) =>
   });
 const addListFail = (state) => updateObject(state, { loading: false });
 
+// Remove a todo
+const removeListStart = (state) => updateObject(state, { loading: true });
+const removeListSuccess = (state, action) =>
+  updateObject(state, {
+    todos: state.todos.filter((todo) => todo.id !== action.listId),
+    loading: false,
+  });
+const removeListFail = (state) => updateObject(state, { loading: false });
+
 // Add an item
 const addItemStart = (state) => updateObject(state, { loading: true });
 const addItemSuccess = (state, action) => {
@@ -78,6 +87,12 @@ const reducer = (state = initialState, action) => {
       return addItemSuccess(state, action);
     case actionTypes.ADD_ITEM_FAIL:
       return addItemFail(state, action);
+    case actionTypes.REMOVE_LIST_START:
+      return removeListStart(state, action);
+    case actionTypes.REMOVE_LIST_SUCCESS:
+      return removeListSuccess(state, action);
+    case actionTypes.REMOVE_LIST_FAIL:
+      return removeListFail(state, action);
     default:
       return state;
   }
