@@ -23,7 +23,7 @@ const Items = (props) => {
   };
 
   const clickButton = (event) => {
-    toggleItemComplete(event.target.value, event.target.checked);
+    toggleItemComplete(parseInt(event.target.value, 10), event.target.checked);
   };
 
   const itemList = sortById(items).map((item) => {
