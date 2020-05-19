@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import { sortById } from '../../../shared/utility';
 
 const Items = (props) => {
   const { items, todoTitle, clicked, toggleItemComplete } = props;
@@ -25,7 +26,7 @@ const Items = (props) => {
     toggleItemComplete(event.target.value, event.target.checked);
   };
 
-  const itemList = items.map((item) => {
+  const itemList = sortById(items).map((item) => {
     return (
       <li key={item.id}>
         <input
