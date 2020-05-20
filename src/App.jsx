@@ -9,9 +9,8 @@ import TodoCont from './containers/TodoApp/TodoApp';
 const CONTENTWRAPPER = styled.div`
   margin: auto;
   width: 70%;
-  border: 1px solid black;
   padding-top: 10rem;
-  padding-bottom: 5rem;
+  padding-bottom: 10rem;
 `;
 
 const Wrapper = styled.div`

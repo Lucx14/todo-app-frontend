@@ -9,15 +9,16 @@ import Items from '../../components/TodoApp/Items/Items';
 
 const Wrapper = styled.div`
   display: flex;
+  height: 500px;
 `;
 const ListWrapper = styled.div`
+  position: relative;
   background-color: #f3f2f8;
   padding: 0.625rem;
   width: 50%;
 `;
 const ItemsWrapper = styled.div`
   background-color: #fff;
-  border: 1px solid blue;
   width: 50%;
 `;
 
@@ -62,17 +63,27 @@ const DeleteButton = styled.button`
   font-size: 1rem;
   margin-left: 0.5rem;
   margin-right: -0.5rem;
+  cursor: pointer;
 `;
 
 const ControlsWrapper = styled.div`
+  padding: 10px;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  left: 0;
   display: flex;
   justify-content: space-between;
 `;
 
 const HeadingWrapper = styled.div`
+  margin-top: 10px;
+  margin-bottom: 15px;
   font-size: 1.2rem;
+  font-family: 'Lato', sans-serif;
   font-weight: bold;
   padding: 10px 10px;
+  color: #222222;
 `;
 
 const AddButton = styled.button`
@@ -81,6 +92,8 @@ const AddButton = styled.button`
   outline: none;
   padding: 15px;
   font-size: 1rem;
+  cursor: pointer;
+  color: #808080;
 `;
 
 const Todos = (props) => {

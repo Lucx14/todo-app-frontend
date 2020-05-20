@@ -13,6 +13,7 @@ const Count = styled.div`
   right: 0;
   padding: 16px 0;
   font-weight: bold;
+  color: #222222;
 `;
 
 const Icon = styled.div`
@@ -26,6 +27,7 @@ const Icon = styled.div`
 const Title = styled.div`
   width: 100%;
   padding: 15px 5px;
+  color: #222222;
 `;
 
 const Todo = (props) => {
