@@ -8,23 +8,79 @@ import Todo from '../../components/TodoApp/Todo/Todo';
 import Items from '../../components/TodoApp/Items/Items';
 
 const Wrapper = styled.div`
-  background-color: #e4d5bc;
-  border: solid 1px black;
   display: flex;
-  justify-content: center;
-  padding: 20px;
 `;
 const ListWrapper = styled.div`
-  border: 1px solid red;
-  padding: 20px;
+  background-color: #f3f2f8;
+  padding: 0.625rem;
+  width: 50%;
 `;
 const ItemsWrapper = styled.div`
+  background-color: #fff;
   border: 1px solid blue;
-  padding: 20px;
+  width: 50%;
 `;
 
-const UL = styled.div`
-  /* list-style-type: none; */
+const Input = styled.input`
+  padding: 5px;
+  margin-left: 5px;
+  background: none;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  border-bottom: black solid 1px;
+  outline: none;
+  font-size: 1rem;
+`;
+
+const NewListWrapper = styled.div`
+  display: flex;
+  margin: 0.5rem;
+  align-items: center;
+`;
+
+const Icon = styled.div`
+  padding: 10px;
+  margin: 10px;
+  background-color: #339af0;
+  border-radius: 50%;
+  color: white;
+`;
+
+const TodoWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  padding: 0 0.5rem;
+`;
+
+const DeleteButton = styled.button`
+  background: none;
+  border: none;
+  outline: none;
+  width: 10%;
+  color: #808080;
+  font-size: 1rem;
+  margin-left: 0.5rem;
+  margin-right: -0.5rem;
+`;
+
+const ControlsWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
+
+const HeadingWrapper = styled.div`
+  font-size: 1.2rem;
+  font-weight: bold;
+  padding: 10px 10px;
+`;
+
+const AddButton = styled.button`
+  background: none;
+  border: none;
+  outline: none;
+  padding: 15px;
+  font-size: 1rem;
 `;
 
 const Todos = (props) => {
@@ -40,6 +96,7 @@ const Todos = (props) => {
   const [selectedTodo, setSelectedTodo] = useState({});
   const [formVisible, setFormVisible] = useState(false);
   const [listTitleValue, setListTitleValue] = useState('');
+  const [trashVisible, setTrashVisible] = useState(false);
 
   useEffect(() => {
     onfetchTodos();
@@ -47,7 +104,9 @@ const Todos = (props) => {
 
   const selectList = (event) => {
     setSelectedTodo(
-      todos.find((todo) => todo.id === parseInt(event.target.value, 10))
+      todos.find(
+        (todo) => todo.id === parseInt(event.target.getAttribute('value'), 10)
+      )
     );
   };
 
@@ -55,11 +114,13 @@ const Todos = (props) => {
     setFormVisible(true);
   };
 
-  const removeTodoHandler = (id) => {
+  const removeTodoHandler = (id, event) => {
+    event.preventDefault();
     onRemoveTodo(id);
     if (id === selectedTodo.id) {
       setSelectedTodo({});
     }
+    setTrashVisible(false);
   };
 
   const removeItemHandler = (itemId) => {
@@ -78,6 +139,18 @@ const Todos = (props) => {
     setListTitleValue(event.target.value);
   };
 
+  const showTrash = () => {
+    setTrashVisible(true);
+  };
+
+  const hideTrash = () => {
+    setTrashVisible(false);
+  };
+
+  const hideForm = () => {
+    setFormVisible(false);
+  };
+
   const submitNewList = (event) => {
     event.preventDefault();
     if (listTitleValue.length > 0) {
@@ -92,16 +165,24 @@ const Todos = (props) => {
   if (todos) {
     list = todos.map((todo) => {
       return (
-        <div key={todo.id}>
+        <TodoWrapper key={todo.id}>
           <Todo
             id={todo.id}
             title={todo.title}
             submitted={() => {}}
             count={todo.item_count}
             clicked={selectList}
-            deleteTodo={removeTodoHandler}
           />
-        </div>
+          {trashVisible && (
+            <DeleteButton
+              type="button"
+              onClick={(e) => removeTodoHandler(todo.id, e)}
+              value={todo.id}
+            >
+              <i className="fas fa-trash-alt" />
+            </DeleteButton>
+          )}
+        </TodoWrapper>
       );
     });
   }
@@ -114,22 +195,44 @@ const Todos = (props) => {
   return (
     <Wrapper>
       <ListWrapper>
-        <h2>My lists</h2>
-        <UL>{list}</UL>
+        <HeadingWrapper>My Lists</HeadingWrapper>
+        <div>{list}</div>
         {formVisible && (
-          <form onSubmit={submitNewList}>
-            <input
-              type="text"
-              value={listTitleValue}
-              onChange={titleValueUpdateHandler}
-              name="new-list"
-              placeholder="Add title..."
-            />
-          </form>
+          <NewListWrapper>
+            <Icon className="fas fa-list-ul fa-sm" />
+            <form onSubmit={submitNewList}>
+              <Input
+                type="text"
+                value={listTitleValue}
+                onChange={titleValueUpdateHandler}
+                name="new-list"
+                placeholder="Add title..."
+              />
+            </form>
+          </NewListWrapper>
         )}
-        <button type="button" onClick={addTodoHandler}>
-          + List
-        </button>
+        <ControlsWrapper>
+          {!formVisible && (
+            <AddButton type="button" onClick={addTodoHandler}>
+              <i className="fas fa-plus-circle" /> Add List
+            </AddButton>
+          )}
+          {formVisible && (
+            <AddButton type="button" onClick={hideForm}>
+              <i className="far fa-times-circle" /> Cancel
+            </AddButton>
+          )}
+          {!trashVisible && (
+            <AddButton type="button" onClick={showTrash}>
+              <i className="fas fa-minus-circle" /> Delete List
+            </AddButton>
+          )}
+          {trashVisible && (
+            <AddButton type="button" onClick={hideTrash}>
+              <i className="far fa-times-circle" /> Cancel
+            </AddButton>
+          )}
+        </ControlsWrapper>
       </ListWrapper>
       <ItemsWrapper>
         {items && (
