@@ -27,3 +27,11 @@ export const REMOVE_ITEM = 'REMOVE_ITEM';
 export const REMOVE_ITEM_START = 'REMOVE_ITEM_START';
 export const REMOVE_ITEM_SUCCESS = 'REMOVE_ITEM_SUCCESS';
 export const REMOVE_ITEM_FAIL = 'REMOVE_ITEM_FAIL';
+
+export const AUTH_INIT = 'AUTH_INIT';
+export const AUTH_START = 'AUTH_START';
+export const AUTH_SUCCESS = 'AUTH_SUCCESS';
+export const AUTH_FAIL = 'AUTH_FAIL';
+export const AUTH_LOGOUT = 'AUTH_LOGOUT';
+export const AUTH_INITIATE_LOGOUT = 'AUTH_INITIATE_LOGOUT';
+export const AUTH_CHECK_STATE = 'AUTH_CHECK_STATE';
