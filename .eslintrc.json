@@ -26,7 +26,17 @@
   },
   "plugins": ["react", "import", "prettier", "jsx-a11y", "jest"],
   "rules": {
-    "no-console": "error"
+    "no-console": "error",
+    "jsx-a11y/label-has-associated-control": [ "error", {
+      "required": {
+        "some": [ "nesting", "id"  ]
+      }
+    }],
+    "jsx-a11y/label-has-for": [ "error", {
+      "required": {
+        "some": [ "nesting", "id"  ]
+      }
+    }]
   },
   "overrides": [
     {

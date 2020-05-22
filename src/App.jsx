@@ -9,6 +9,7 @@ import Header from './hoc/Layout/Header/Header';
 import Footer from './hoc/Layout/Footer/Footer';
 import TodoCont from './containers/TodoApp/TodoApp';
 import Auth from './containers/Auth/Auth';
+import Signup from './containers/Auth/Signup';
 import Logout from './containers/Auth/Logout/Logout';
 import * as actions from './store/actions/index';
 
@@ -34,6 +35,7 @@ const App = (props) => {
   let routes = (
     <Switch>
       <Route path="/auth" component={Auth} />
+      <Route path="/signup" component={Signup} />
       <Redirect to="/auth" />
     </Switch>
   );

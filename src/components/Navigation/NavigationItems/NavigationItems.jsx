@@ -12,9 +12,14 @@ const NavigationItems = (props) => {
         </NavigationItem>
       )}
       {!isAuthenticated && (
-        <NavigationItem link="/auth" exact={false}>
-          Authenticate
-        </NavigationItem>
+        <>
+          <NavigationItem link="/auth" exact={false}>
+            Sign in
+          </NavigationItem>
+          <NavigationItem link="/signup" exact={false}>
+            Sign up
+          </NavigationItem>
+        </>
       )}
     </ul>
   );
