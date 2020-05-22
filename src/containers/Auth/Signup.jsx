@@ -2,6 +2,10 @@ import React from 'react';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import styled from 'styled-components';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import { Redirect } from 'react-router-dom';
+import * as actions from '../../store/actions/index';
 
 const Wrapper = styled.div`
   margin: 20px auto;
@@ -37,9 +41,19 @@ const FieldWrapper = styled.div`
   box-sizing: border-box;
 `;
 
-const Signup = () => {
+const Signup = (props) => {
+  const { isAuthenticated, onAuthSignup } = props;
+
+  let authRedirect;
+  if (isAuthenticated) {
+    authRedirect = <Redirect to="/" />;
+  }
+
+  // Just need to present an error somewhere if we failed on the backend
+
   return (
     <Wrapper>
+      {authRedirect}
       <Formik
         initialValues={{
           name: '',
@@ -60,10 +74,13 @@ const Signup = () => {
           password_confirmation: Yup.string().required('Required'),
         })}
         onSubmit={(values, { setSubmitting }) => {
-          setTimeout(() => {
-            alert(JSON.stringify(values, null, 2));
-            setSubmitting(false);
-          }, 400);
+          onAuthSignup(
+            values.name,
+            values.email,
+            values.password,
+            values.password_confirmation
+          );
+          setSubmitting(false);
         }}
       >
         {({ errors, touched }) => {
@@ -121,4 +138,22 @@ const Signup = () => {
   );
 };
 
-export default Signup;
+const mapStateToProps = (state) => {
+  return {
+    loading: state.auth.loading,
+    // error: state.auth.error,
+    isAuthenticated: state.auth.token !== null,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => ({
+  onAuthSignup: (name, email, password, passwordConfirmation) =>
+    dispatch(actions.authSignup(name, email, password, passwordConfirmation)),
+});
+
+Signup.propTypes = {
+  isAuthenticated: PropTypes.bool.isRequired,
+  onAuthSignup: PropTypes.func.isRequired,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Signup);

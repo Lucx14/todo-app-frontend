@@ -36,3 +36,25 @@ export const checkAuthTimeout = (exp) => ({
   type: actionTypes.AUTH_CHECK_TIMEOUT,
   exp,
 });
+
+export const authSignup = (name, email, password, passwordConfirmation) => ({
+  type: actionTypes.AUTH_SIGNUP,
+  name,
+  email,
+  password,
+  passwordConfirmation,
+});
+
+export const authSignupStart = () => ({
+  type: actionTypes.AUTH_SIGNUP_START,
+});
+
+export const authSignupSuccess = (token) => ({
+  type: actionTypes.AUTH_SIGNUP_SUCCESS,
+  token,
+});
+
+export const authSignupFail = (error) => ({
+  type: actionTypes.AUTH_SIGNUP_FAIL,
+  error,
+});
