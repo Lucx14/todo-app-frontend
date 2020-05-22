@@ -12,7 +12,7 @@ export async function signIn(email, password) {
 
 export async function signUp(name, email, password, passwordConfirmation) {
   return axios
-    .post('https://mysterious-reaches-53245.herokuapp.com/auth/login', {
+    .post('https://mysterious-reaches-53245.herokuapp.com/signup', {
       name,
       email,
       password,

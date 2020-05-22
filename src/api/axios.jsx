@@ -1,13 +1,19 @@
 import axios from 'axios';
 
-const jwt =
-  'eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo3LCJleHAiOjE1OTAxNTI3MTh9.6Mo2KRQ2DkIhxukHN5kH18D7gU-kaj-h6A-sNhMqWBs';
 const instance = axios.create({
   baseURL: 'https://mysterious-reaches-53245.herokuapp.com/',
   headers: {
-    Authorization: `Bearer ${jwt}`,
     Accept: 'application/vnd.todos.v1+json',
   },
+});
+
+instance.interceptors.request.use((config) => {
+  const jwt = localStorage.getItem('token');
+  if (jwt) {
+    // eslint-disable-next-line no-param-reassign
+    config.headers.Authorization = `Bearer ${jwt}`;
+  }
+  return config;
 });
 
 export default instance;

@@ -9,7 +9,12 @@ import fetchTodosSaga, {
   deleteItemSaga,
 } from './todo';
 
-import { signInSaga, logoutSaga, authCheckStateSaga } from './auth';
+import {
+  signInSaga,
+  logoutSaga,
+  authCheckStateSaga,
+  checkAuthTimeoutSaga,
+} from './auth';
 
 export function* watchTodo() {
   yield takeEvery(actionTypes.FETCH_TODOS, fetchTodosSaga);
@@ -24,4 +29,5 @@ export function* watchAuth() {
   yield takeEvery(actionTypes.AUTH_INIT, signInSaga);
   yield takeEvery(actionTypes.AUTH_INITIATE_LOGOUT, logoutSaga);
   yield takeEvery(actionTypes.AUTH_CHECK_STATE, authCheckStateSaga);
+  yield takeEvery(actionTypes.AUTH_CHECK_TIMEOUT, checkAuthTimeoutSaga);
 }

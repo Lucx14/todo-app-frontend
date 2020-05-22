@@ -33,4 +33,5 @@ export {
   logOut,
   logoutSuccess,
   authCheckState,
+  checkAuthTimeout,
 } from './auth';

@@ -31,3 +31,8 @@ export const logoutSuccess = () => ({
 export const authCheckState = () => ({
   type: actionTypes.AUTH_CHECK_STATE,
 });
+
+export const checkAuthTimeout = (exp) => ({
+  type: actionTypes.AUTH_CHECK_TIMEOUT,
+  exp,
+});
