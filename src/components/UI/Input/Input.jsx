@@ -12,11 +12,11 @@ const InputWrapper = styled.input`
   outline: none;
   border: ${(props) =>
     props.invalid && props.shouldValidate && props.touched
-      ? '1px solid red'
+      ? '1px solid #D6705C'
       : '1px solid #ccc'};
   background-color: ${(props) =>
     props.invalid && props.shouldValidate && props.touched
-      ? '#fda49a'
+      ? '#FFF8F7'
       : 'white'};
   font: inherit;
   padding: 6px 10px;

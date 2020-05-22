@@ -16,7 +16,7 @@ const NavigationItems = (props) => {
       )}
       {!isAuthenticated && location.pathname === '/signup' && (
         <NavigationItem link="/auth" exact={false}>
-          Sign in
+          Log in
         </NavigationItem>
       )}
       {!isAuthenticated && location.pathname === '/auth' && (

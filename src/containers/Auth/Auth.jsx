@@ -10,6 +10,7 @@ import * as actions from '../../store/actions/index';
 
 const Wrapper = styled.div`
   margin: 20px auto;
+  border-radius: 5px;
   width: 80%;
   text-align: center;
   box-shadow: 0 2px 3px #ccc;
@@ -21,8 +22,28 @@ const Wrapper = styled.div`
   }
 `;
 
+const StyledError = styled.div`
+  color: #808080;
+  padding: 5px;
+  font-style: italic;
+`;
+
+const StyledButton = styled.button`
+  background: none;
+  border: none;
+  outline: none;
+  padding: 15px;
+  font-size: 1rem;
+  cursor: pointer;
+  color: #808080;
+`;
+
+const StyledIcon = styled.i`
+  padding-right: 8px;
+`;
+
 const Auth = (props) => {
-  const { onAuthInit, isAuthenticated } = props;
+  const { onAuthInit, isAuthenticated, error } = props;
   const [authForm, setAuthForm] = useState({
     email: {
       elementType: 'input',
@@ -95,23 +116,30 @@ const Auth = (props) => {
     />
   ));
 
-  // const errorMessage = 'There was a problem!';
-  // if (error) {
-  //   errorMessage = <p>{error.message}</p>;
-  // }
-
   let authRedirect;
   if (isAuthenticated) {
     authRedirect = <Redirect to="/" />;
   }
 
+  let errorMessage;
+  if (error) {
+    errorMessage = (
+      <StyledError>
+        There was a problem with your request, please try again
+      </StyledError>
+    );
+  }
+
   return (
     <Wrapper>
       {authRedirect}
-      {/* {errorMessage} */}
+      {errorMessage}
       <form onSubmit={authSubmitHandler}>
         {form}
-        <button type="submit">Submit</button>
+        <StyledButton type="submit">
+          <StyledIcon className="fas fa-sign-in-alt" />
+          Log in
+        </StyledButton>
       </form>
     </Wrapper>
   );
@@ -120,7 +148,7 @@ const Auth = (props) => {
 const mapStateToProps = (state) => {
   return {
     loading: state.auth.loading,
-    // error: state.auth.error,
+    error: state.auth.error !== null,
     isAuthenticated: state.auth.token !== null,
   };
 };
@@ -132,6 +160,7 @@ const mapDispatchToProps = (dispatch) => ({
 Auth.propTypes = {
   onAuthInit: PropTypes.func.isRequired,
   isAuthenticated: PropTypes.bool.isRequired,
+  error: PropTypes.bool.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Auth);

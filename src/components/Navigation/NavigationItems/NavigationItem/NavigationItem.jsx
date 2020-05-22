@@ -5,11 +5,11 @@ import PropTypes from 'prop-types';
 const NavigationItem = (props) => {
   const { link, exact, children } = props;
   return (
-    <li>
+    <>
       <NavLink to={link} exact={exact}>
         {children}
       </NavLink>
-    </li>
+    </>
   );
 };
 

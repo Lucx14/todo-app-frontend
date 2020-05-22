@@ -9,6 +9,7 @@ import * as actions from '../../store/actions/index';
 
 const Wrapper = styled.div`
   margin: 20px auto;
+  border-radius: 5px;
   width: 80%;
   text-align: center;
   box-shadow: 0 2px 3px #ccc;
@@ -18,6 +19,26 @@ const Wrapper = styled.div`
   @media (min-width: 600px) {
     width: 500px;
   }
+`;
+
+const StyledError = styled.div`
+  color: #808080;
+  padding: 5px;
+  font-style: italic;
+`;
+
+const StyledButton = styled.button`
+  background: none;
+  border: none;
+  outline: none;
+  padding: 15px;
+  font-size: 1rem;
+  cursor: pointer;
+  color: #808080;
+`;
+
+const StyledIcon = styled.i`
+  padding-right: 8px;
 `;
 
 const StyledInput = styled.input`
@@ -31,8 +52,16 @@ const StyledInput = styled.input`
     outline: none;
     background-color: #ccc;
   }
-  border: ${(props) => (props.errors ? '1px solid red' : '1px solid #ccc')};
-  background-color: ${(props) => (props.errors ? '#fda49a' : 'white')};
+  border: ${(props) => (props.errors ? '1px solid #D6705C' : '1px solid #ccc')};
+  background-color: ${(props) => (props.errors ? '#FFF8F7' : 'white')};
+`;
+
+const StyledHelper = styled.div`
+  text-align: left;
+  color: #808080;
+  font-size: 0.625rem;
+  font-style: italic;
+  padding-top: ${(props) => (props.errors ? '6px' : '0px')};
 `;
 
 const FieldWrapper = styled.div`
@@ -42,18 +71,26 @@ const FieldWrapper = styled.div`
 `;
 
 const Signup = (props) => {
-  const { isAuthenticated, onAuthSignup } = props;
+  const { isAuthenticated, onAuthSignup, error } = props;
 
   let authRedirect;
   if (isAuthenticated) {
     authRedirect = <Redirect to="/" />;
   }
 
-  // Just need to present an error somewhere if we failed on the backend
+  let errorMessage;
+  if (error) {
+    errorMessage = (
+      <StyledError>
+        There was a problem with your request, please try again
+      </StyledError>
+    );
+  }
 
   return (
     <Wrapper>
       {authRedirect}
+      {errorMessage}
       <Formik
         initialValues={{
           name: '',
@@ -94,7 +131,9 @@ const Signup = (props) => {
                   placeholder="Name"
                   errors={errors.name && touched.name}
                 />
-                <ErrorMessage name="name" />
+                <StyledHelper errors={errors.name && touched.name}>
+                  <ErrorMessage name="name" />
+                </StyledHelper>
               </FieldWrapper>
               <FieldWrapper>
                 <Field
@@ -104,7 +143,9 @@ const Signup = (props) => {
                   placeholder="Email"
                   errors={errors.email && touched.email}
                 />
-                <ErrorMessage name="email" />
+                <StyledHelper errors={errors.email && touched.email}>
+                  <ErrorMessage name="email" />
+                </StyledHelper>
               </FieldWrapper>
               <FieldWrapper>
                 <Field
@@ -114,7 +155,9 @@ const Signup = (props) => {
                   placeholder="Password"
                   errors={errors.password && touched.password}
                 />
-                <ErrorMessage name="password" />
+                <StyledHelper errors={errors.password && touched.password}>
+                  <ErrorMessage name="password" />
+                </StyledHelper>
               </FieldWrapper>
               <FieldWrapper>
                 <Field
@@ -127,9 +170,19 @@ const Signup = (props) => {
                     touched.password_confirmation
                   }
                 />
-                <ErrorMessage name="password_confirmation" />
+                <StyledHelper
+                  errors={
+                    errors.password_confirmation &&
+                    touched.password_confirmation
+                  }
+                >
+                  <ErrorMessage name="password_confirmation" />
+                </StyledHelper>
               </FieldWrapper>
-              <button type="submit">Submit</button>
+              <StyledButton type="submit">
+                <StyledIcon className="fas fa-user-plus" />
+                Sign Up
+              </StyledButton>
             </Form>
           );
         }}
@@ -141,7 +194,7 @@ const Signup = (props) => {
 const mapStateToProps = (state) => {
   return {
     loading: state.auth.loading,
-    // error: state.auth.error,
+    error: state.auth.error !== null,
     isAuthenticated: state.auth.token !== null,
   };
 };
@@ -154,6 +207,7 @@ const mapDispatchToProps = (dispatch) => ({
 Signup.propTypes = {
   isAuthenticated: PropTypes.bool.isRequired,
   onAuthSignup: PropTypes.func.isRequired,
+  error: PropTypes.bool.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Signup);
