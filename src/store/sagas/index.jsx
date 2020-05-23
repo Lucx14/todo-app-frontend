@@ -7,6 +7,7 @@ import fetchTodosSaga, {
   deleteListSaga,
   updateItemStatusSaga,
   deleteItemSaga,
+  updateListTitleSaga,
 } from './todo';
 
 import {
@@ -24,6 +25,7 @@ export function* watchTodo() {
   yield takeEvery(actionTypes.REMOVE_LIST, deleteListSaga);
   yield takeEvery(actionTypes.UPDATE_ITEM_STATUS, updateItemStatusSaga);
   yield takeEvery(actionTypes.REMOVE_ITEM, deleteItemSaga);
+  yield takeEvery(actionTypes.UPDATE_LIST_TITLE, updateListTitleSaga);
 }
 
 export function* watchAuth() {

@@ -6,13 +6,24 @@ import PropTypes from 'prop-types';
 import NavigationItems from '../../../components/Navigation/NavigationItems/NavigationItems';
 
 const Wrapper = styled.div`
-  background-color: gray;
+  background-color: black;
   opacity: 0.7;
   position: absolute;
   top: 0px;
   width: 100%;
-  height: 5rem;
+  color: white;
+`;
+
+const Icon = styled.i`
+  padding-right: 15px;
+`;
+
+const Content = styled.div`
   display: flex;
+  justify-content: space-between;
+  width: 70%;
+  margin: 0 auto;
+  align-items: center;
 `;
 
 const Header = (props) => {
@@ -20,8 +31,13 @@ const Header = (props) => {
 
   return (
     <Wrapper>
-      <h1>Header component</h1>
-      <NavigationItems isAuthenticated={isAuthenticated} />
+      <Content>
+        <h1>
+          <Icon className="fas fa-list-ul" />
+          Todo List App
+        </h1>
+        <NavigationItems isAuthenticated={isAuthenticated} />
+      </Content>
     </Wrapper>
   );
 };

@@ -6,6 +6,8 @@ import { connect } from 'react-redux';
 import * as actions from '../../store/actions/index';
 import Todo from '../../components/TodoApp/Todo/Todo';
 import Items from '../../components/TodoApp/Items/Items';
+import ActionButton from '../../components/UI/Button/ActionButton';
+import { sortById } from '../../shared/utility';
 
 const Wrapper = styled.div`
   display: flex;
@@ -16,10 +18,13 @@ const ListWrapper = styled.div`
   background-color: #f3f2f8;
   padding: 0.625rem;
   width: 50%;
+  border-radius: 5px 0 0 5px;
+  opacity: 0.9;
 `;
 const ItemsWrapper = styled.div`
   background-color: #fff;
   width: 50%;
+  border-radius: 0 5px 5px 0;
 `;
 
 const Input = styled.input`
@@ -86,16 +91,6 @@ const HeadingWrapper = styled.div`
   color: #222222;
 `;
 
-const AddButton = styled.button`
-  background: none;
-  border: none;
-  outline: none;
-  padding: 15px;
-  font-size: 1rem;
-  cursor: pointer;
-  color: #808080;
-`;
-
 const Todos = (props) => {
   const {
     todos,
@@ -105,6 +100,7 @@ const Todos = (props) => {
     onUpdateItemStatus,
     onAddItem,
     onRemoveItem,
+    onUpdateTodoTitle,
   } = props;
   const [selectedTodo, setSelectedTodo] = useState({});
   const [formVisible, setFormVisible] = useState(false);
@@ -176,7 +172,7 @@ const Todos = (props) => {
 
   let list;
   if (todos) {
-    list = todos.map((todo) => {
+    list = sortById(todos).map((todo) => {
       return (
         <TodoWrapper key={todo.id}>
           <Todo
@@ -185,6 +181,7 @@ const Todos = (props) => {
             submitted={() => {}}
             count={todo.item_count}
             clicked={selectList}
+            updater={onUpdateTodoTitle}
           />
           {trashVisible && (
             <DeleteButton
@@ -220,30 +217,32 @@ const Todos = (props) => {
                 onChange={titleValueUpdateHandler}
                 name="new-list"
                 placeholder="Add title..."
+                autoFocus
+                onBlur={hideForm}
               />
             </form>
           </NewListWrapper>
         )}
         <ControlsWrapper>
           {!formVisible && (
-            <AddButton type="button" onClick={addTodoHandler}>
+            <ActionButton clicked={addTodoHandler}>
               <i className="fas fa-plus-circle" /> Add List
-            </AddButton>
+            </ActionButton>
           )}
           {formVisible && (
-            <AddButton type="button" onClick={hideForm}>
+            <ActionButton clicked={hideForm}>
               <i className="far fa-times-circle" /> Cancel
-            </AddButton>
+            </ActionButton>
           )}
           {!trashVisible && (
-            <AddButton type="button" onClick={showTrash}>
+            <ActionButton clicked={showTrash}>
               <i className="fas fa-minus-circle" /> Delete List
-            </AddButton>
+            </ActionButton>
           )}
           {trashVisible && (
-            <AddButton type="button" onClick={hideTrash}>
+            <ActionButton clicked={hideTrash}>
               <i className="far fa-times-circle" /> Cancel
-            </AddButton>
+            </ActionButton>
           )}
         </ControlsWrapper>
       </ListWrapper>
@@ -279,6 +278,8 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(actions.updateItemStatus(todoId, itemId, itemStatus)),
   onRemoveItem: (todoId, itemId) =>
     dispatch(actions.removeItem(todoId, itemId)),
+  onUpdateTodoTitle: (todoId, title) =>
+    dispatch(actions.updateListTitle(todoId, title)),
 });
 
 Todos.propTypes = {
@@ -307,6 +308,7 @@ Todos.propTypes = {
   onRemoveTodo: PropTypes.func.isRequired,
   onUpdateItemStatus: PropTypes.func.isRequired,
   onRemoveItem: PropTypes.func.isRequired,
+  onUpdateTodoTitle: PropTypes.func.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Todos);

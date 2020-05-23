@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 const Wrapper = styled.div`
-  background-color: pink;
+  background-color: black;
   color: white;
   opacity: 0.5;
   position: absolute;
@@ -14,7 +14,7 @@ const Wrapper = styled.div`
 const Footer = () => {
   return (
     <Wrapper>
-      <h1>Footer component</h1>
+      <div />
     </Wrapper>
   );
 };

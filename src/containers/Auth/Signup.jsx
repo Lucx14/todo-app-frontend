@@ -6,13 +6,14 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Redirect } from 'react-router-dom';
 import * as actions from '../../store/actions/index';
+import Button from '../../components/UI/Button/Button';
 
 const Wrapper = styled.div`
+  background-color: #ffffff;
   margin: 20px auto;
   border-radius: 5px;
   width: 80%;
   text-align: center;
-  box-shadow: 0 2px 3px #ccc;
   border: 1px solid #eee;
   padding: 10px;
   box-sizing: border-box;
@@ -25,16 +26,6 @@ const StyledError = styled.div`
   color: #808080;
   padding: 5px;
   font-style: italic;
-`;
-
-const StyledButton = styled.button`
-  background: none;
-  border: none;
-  outline: none;
-  padding: 15px;
-  font-size: 1rem;
-  cursor: pointer;
-  color: #808080;
 `;
 
 const StyledIcon = styled.i`
@@ -179,10 +170,10 @@ const Signup = (props) => {
                   <ErrorMessage name="password_confirmation" />
                 </StyledHelper>
               </FieldWrapper>
-              <StyledButton type="submit">
+              <Button>
                 <StyledIcon className="fas fa-user-plus" />
                 Sign Up
-              </StyledButton>
+              </Button>
             </Form>
           );
         }}

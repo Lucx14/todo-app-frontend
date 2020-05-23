@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { sortById } from '../../../shared/utility';
+import ItemsActionButton from '../../UI/Button/ItemsActionButton';
+import ActionButton from '../../UI/Button/ActionButton';
 
 const Wrapper = styled.div`
   padding: 20px;
@@ -31,16 +33,6 @@ const InputControls = styled.div`
   width: 100%;
   align-items: center;
   justify-content: space-between;
-`;
-
-const CancelButton = styled.div`
-  background: none;
-  border: none;
-  outline: none;
-  padding: 15px;
-  font-size: 1rem;
-  cursor: pointer;
-  color: #808080;
 `;
 
 const ItemWrapper = styled.div`
@@ -88,20 +80,6 @@ const Label = styled.label`
 
 const Input = styled.input`
   cursor: pointer;
-`;
-
-const AddItemButton = styled.button`
-  padding: 2px 13px;
-  background: none;
-  border: none;
-  outline: none;
-  font-size: 1rem;
-  border-radius: 5px;
-  -moz-box-shadow: 1px 1px 5px 1px #ccc;
-  -webkit-box-shadow: 1px 1px 5px 1px #ccc;
-  box-shadow: 1px 1px 5px 1px #ccc;
-  cursor: pointer;
-  color: #808080;
 `;
 
 const Items = (props) => {
@@ -174,20 +152,19 @@ const Items = (props) => {
     <Wrapper>
       <ControlsWrapper>
         {!formVisible && (
-          <AddItemButton type="button" onClick={showForm}>
+          <ItemsActionButton clicked={showForm}>
             <i className="fas fa-plus" />
-          </AddItemButton>
+          </ItemsActionButton>
         )}
         {formVisible && (
-          <AddItemButton type="button" onClick={cancelFormSubmission}>
+          <ItemsActionButton clicked={cancelFormSubmission}>
             <i className="fas fa-eject" />
-          </AddItemButton>
+          </ItemsActionButton>
         )}
-
-        <AddItemButton type="button" onClick={toggleDelete}>
+        <ItemsActionButton clicked={toggleDelete}>
           {!deleteVisible && <i className="fas fa-times" />}
           {deleteVisible && <i className="fas fa-eject" />}
-        </AddItemButton>
+        </ItemsActionButton>
       </ControlsWrapper>
 
       <TopContent>
@@ -207,15 +184,16 @@ const Items = (props) => {
                 onChange={itemUpdateValueHandler}
                 name="new-item"
                 placeholder="Add item...."
+                autoFocus
+                onBlur={cancelFormSubmission}
               />
             </form>
-            <CancelButton type="button" onClick={cancelFormSubmission}>
+            <ActionButton clicked={cancelFormSubmission}>
               <i className="far fa-times-circle" /> Cancel
-            </CancelButton>
+            </ActionButton>
           </InputControls>
         </NewItemWrapper>
       )}
-      {/* can also put an invisible button here later when you click form appears! */}
     </Wrapper>
   );
 };

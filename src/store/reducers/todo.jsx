@@ -118,6 +118,26 @@ const removeItemSuccess = (state, action) => {
 };
 const removeItemFail = (state) => updateObject(state, { loading: false });
 
+// Update a list title
+const updateListTitleStart = (state) => updateObject(state, { loading: true });
+const updateListTitleSuccess = (state, action) => {
+  return updateObject(state, {
+    todos: state.todos.map((todo) => {
+      if (todo.id === action.listId) {
+        return {
+          ...todo,
+          title: action.title,
+        };
+      }
+      return {
+        ...todo,
+      };
+    }),
+    loading: false,
+  });
+};
+const updateListTitleFail = (state) => updateObject(state, { loading: false });
+
 // Reducer
 const reducer = (state = initialState, action) => {
   switch (action.type) {
@@ -157,6 +177,12 @@ const reducer = (state = initialState, action) => {
       return removeItemSuccess(state, action);
     case actionTypes.REMOVE_ITEM_FAIL:
       return removeItemFail(state, action);
+    case actionTypes.UPDATE_LIST_TITLE_START:
+      return updateListTitleStart(state, action);
+    case actionTypes.UPDATE_LIST_TITLE_SUCCESS:
+      return updateListTitleSuccess(state, action);
+    case actionTypes.UPDATE_LIST_TITLE_FAIL:
+      return updateListTitleFail(state, action);
     default:
       return state;
   }

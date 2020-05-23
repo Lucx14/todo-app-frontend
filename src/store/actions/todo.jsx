@@ -124,3 +124,25 @@ export const removeItemFail = (error) => ({
   type: actionTypes.REMOVE_ITEM_FAIL,
   error,
 });
+
+// Update a List title
+export const updateListTitle = (listId, title) => ({
+  type: actionTypes.UPDATE_LIST_TITLE,
+  listId,
+  title,
+});
+
+export const updateListTitleStart = () => ({
+  type: actionTypes.UPDATE_LIST_TITLE_START,
+});
+
+export const updateListTitleSuccess = (listId, title) => ({
+  type: actionTypes.UPDATE_LIST_TITLE_SUCCESS,
+  listId,
+  title,
+});
+
+export const updateListTitleFail = (error) => ({
+  type: actionTypes.UPDATE_LIST_TITLE_FAIL,
+  error,
+});
