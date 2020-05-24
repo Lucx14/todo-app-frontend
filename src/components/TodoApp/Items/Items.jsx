@@ -11,7 +11,7 @@ const Wrapper = styled.div`
 
 const ItemsContentWrapper = styled.div`
   max-height: 250px;
-  overflow-y: scroll;
+  overflow-y: auto;
 `;
 
 const ControlsWrapper = styled.div`

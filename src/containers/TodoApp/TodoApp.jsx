@@ -33,7 +33,7 @@ const ListWrapper = styled.div`
 
 const ListContentWrapper = styled.div`
   max-height: 280px;
-  overflow-y: scroll;
+  overflow-y: auto;
 `;
 
 const ItemsWrapper = styled.div`
