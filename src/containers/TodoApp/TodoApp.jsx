@@ -114,7 +114,7 @@ const Todos = (props) => {
             id={todo.id}
             title={todo.title}
             submitted={() => {}}
-            count={todo.item_count}
+            count={todo.items.filter((item) => item.done !== true).length}
             clicked={selectList}
             updater={onUpdateTodoTitle}
           />

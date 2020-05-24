@@ -112,7 +112,7 @@ const Items = (props) => {
 
       <TopContent>
         <div>{todoTitle}</div>
-        <div>{items.length}</div>
+        <div>{itemList.length}</div>
       </TopContent>
 
       <ItemsContentWrapper>{itemList}</ItemsContentWrapper>
