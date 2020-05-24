@@ -30,6 +30,12 @@ const ListWrapper = styled.div`
   border-radius: 5px 0 0 5px;
   opacity: 0.9;
 `;
+
+const ListContentWrapper = styled.div`
+  max-height: 280px;
+  overflow-y: scroll;
+`;
+
 const ItemsWrapper = styled.div`
   position: relative;
   background-color: #fff;
@@ -96,6 +102,7 @@ const TodoWrapper = styled.div`
   display: flex;
   justify-content: space-between;
   padding: 0 0.5rem;
+  background: ${(props) => (props.active ? 'rgba(160, 184, 201, 0.3)' : null)};
 `;
 
 const DeleteButton = styled.button`
@@ -214,7 +221,7 @@ const Todos = (props) => {
   if (todos) {
     list = sortById(todos).map((todo) => {
       return (
-        <TodoWrapper key={todo.id}>
+        <TodoWrapper key={todo.id} active={todo.id === selectedTodo.id}>
           <Todo
             id={todo.id}
             title={todo.title}
@@ -247,7 +254,7 @@ const Todos = (props) => {
       <Wrapper>
         <ListWrapper>
           <HeadingWrapper>My Lists</HeadingWrapper>
-          <div>{list}</div>
+          <ListContentWrapper>{list}</ListContentWrapper>
           {formVisible && (
             <NewListWrapper>
               <Icon className="fas fa-list-ul fa-sm" />

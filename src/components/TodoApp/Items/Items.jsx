@@ -9,6 +9,11 @@ const Wrapper = styled.div`
   padding: 20px;
 `;
 
+const ItemsContentWrapper = styled.div`
+  max-height: 250px;
+  overflow-y: scroll;
+`;
+
 const ControlsWrapper = styled.div`
   display: flex;
   justify-content: space-between;
@@ -172,7 +177,7 @@ const Items = (props) => {
         <div>{items.length}</div>
       </TopContent>
 
-      <div>{itemList}</div>
+      <ItemsContentWrapper>{itemList}</ItemsContentWrapper>
       {formVisible && (
         <NewItemWrapper>
           <Input type="checkbox" disabled />
