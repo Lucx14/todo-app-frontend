@@ -1,30 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
 import NavigationItems from '../../../components/Navigation/NavigationItems/NavigationItems';
-
-const Wrapper = styled.div`
-  background-color: black;
-  opacity: 0.7;
-  position: absolute;
-  top: 0px;
-  width: 100%;
-  color: white;
-`;
-
-const Icon = styled.i`
-  padding-right: 15px;
-`;
-
-const Content = styled.div`
-  display: flex;
-  justify-content: space-between;
-  width: 70%;
-  margin: 0 auto;
-  align-items: center;
-`;
+import { Wrapper, Icon, Content } from './style';
 
 const Header = (props) => {
   const { isAuthenticated } = props;

@@ -1,6 +1,4 @@
 import React, { useEffect } from 'react';
-import './App.css';
-import styled from 'styled-components';
 import { Route, Switch, withRouter, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -12,18 +10,7 @@ import Auth from './containers/Auth/Auth';
 import Signup from './containers/Auth/Signup';
 import Logout from './containers/Auth/Logout/Logout';
 import * as actions from './store/actions/index';
-
-const ContentWrapper = styled.div`
-  margin: auto;
-  width: 70%;
-  padding-top: 10rem;
-  padding-bottom: 10rem;
-`;
-
-const Wrapper = styled.div`
-  position: relative;
-  min-height: 100vh;
-`;
+import { ContentWrapper, Wrapper } from './style';
 
 const App = (props) => {
   const { onTryAutoSignup, isAuthenticated } = props;
