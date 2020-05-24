@@ -2,6 +2,7 @@ import styled from 'styled-components';
 
 export const Wrapper = styled.div`
   padding: 20px;
+  height: 100%;
 `;
 
 export const ItemsContentWrapper = styled.div`
@@ -26,6 +27,12 @@ export const TopContent = styled.div`
   padding-right: 1rem;
   margin-top: 1rem;
   margin-bottom: 1rem;
+`;
+
+export const ToggleWrapper = styled.div`
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
 `;
 
 export const InputControls = styled.div`

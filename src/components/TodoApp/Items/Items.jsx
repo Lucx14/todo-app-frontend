@@ -15,6 +15,7 @@ import {
   TrashButton,
   Label,
   Input,
+  ToggleWrapper,
 } from './style';
 
 const Items = (props) => {
@@ -22,6 +23,7 @@ const Items = (props) => {
   const [formVisible, setFormVisible] = useState(false);
   const [deleteVisible, setDeleteVisible] = useState(false);
   const [itemValue, setItemValue] = useState('');
+  const [filter, setFilter] = useState(true);
 
   const itemUpdateValueHandler = (event) => {
     setItemValue(event.target.value);
@@ -38,6 +40,10 @@ const Items = (props) => {
 
   const toggleDelete = () => {
     setDeleteVisible((prevState) => !prevState);
+  };
+
+  const toggleFilter = () => {
+    setFilter((prevState) => !prevState);
   };
 
   const cancelFormSubmission = (event) => {
@@ -59,29 +65,31 @@ const Items = (props) => {
     deleteItem(id);
   };
 
-  const itemList = sortById(items).map((item) => {
-    return (
-      <ItemWrapper key={item.id}>
-        <Input
-          type="checkbox"
-          id="toggleItem"
-          onClick={clickButton}
-          value={item.id}
-          defaultChecked={item.done}
-        />
-        <Label htmlFor="toggleItem">{item.name}</Label>
-        {deleteVisible && (
-          <TrashButton
-            type="button"
-            onClick={(e) => deleteClicked(item.id, e)}
+  const itemList = sortById(items)
+    .filter((item) => (filter ? item.done !== true : item))
+    .map((item) => {
+      return (
+        <ItemWrapper key={item.id}>
+          <Input
+            type="checkbox"
+            id="toggleItem"
+            onClick={clickButton}
             value={item.id}
-          >
-            <i className="fas fa-trash-alt" />
-          </TrashButton>
-        )}
-      </ItemWrapper>
-    );
-  });
+            defaultChecked={item.done}
+          />
+          <Label htmlFor="toggleItem">{item.name}</Label>
+          {deleteVisible && (
+            <TrashButton
+              type="button"
+              onClick={(e) => deleteClicked(item.id, e)}
+              value={item.id}
+            >
+              <i className="fas fa-trash-alt" />
+            </TrashButton>
+          )}
+        </ItemWrapper>
+      );
+    });
 
   return (
     <Wrapper>
@@ -129,6 +137,15 @@ const Items = (props) => {
           </InputControls>
         </NewItemWrapper>
       )}
+      <ToggleWrapper>
+        <ItemsActionButton clicked={toggleFilter}>
+          {filter ? (
+            <i className="far fa-eye" />
+          ) : (
+            <i className="far fa-eye-slash" />
+          )}
+        </ItemsActionButton>
+      </ToggleWrapper>
     </Wrapper>
   );
 };
