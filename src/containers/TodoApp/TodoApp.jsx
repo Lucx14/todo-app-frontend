@@ -31,9 +31,39 @@ const ListWrapper = styled.div`
   opacity: 0.9;
 `;
 const ItemsWrapper = styled.div`
+  position: relative;
   background-color: #fff;
   width: 50%;
   border-radius: 0 5px 5px 0;
+`;
+
+const ItemsPlaceholder = styled.div`
+  position: absolute;
+  background: url('https://images.unsplash.com/photo-1509042239860-f550ce710b93?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=668&q=80')
+    no-repeat center;
+  background-size: cover;
+  height: 100%;
+  width: 100%;
+  border-radius: 0 5px 5px 0;
+`;
+
+const CustomOverlay = styled.div`
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  border-radius: 0 5px 5px 0;
+  background-color: white;
+  opacity: 0.9;
+`;
+
+const PlaceholderText = styled.div`
+  text-align: center;
+  padding-top: 180px;
+
+  color: #808080;
+  font-size: 7rem;
+  font-style: italic;
+  font-family: Lato;
 `;
 
 const Input = styled.input`
@@ -267,6 +297,15 @@ const Todos = (props) => {
               toggleItemComplete={toggleItemCompleteHandler}
               deleteItem={removeItemHandler}
             />
+          )}
+          {!items && (
+            <ItemsPlaceholder>
+              <CustomOverlay>
+                <PlaceholderText>
+                  <i className="fas fa-list-ul" />
+                </PlaceholderText>
+              </CustomOverlay>
+            </ItemsPlaceholder>
           )}
         </ItemsWrapper>
       </Wrapper>
