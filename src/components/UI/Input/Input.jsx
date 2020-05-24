@@ -27,6 +27,7 @@ const InputWrapper = styled.input`
     outline: none;
     background-color: #ccc;
   }
+  border-radius: 3px;
 `;
 
 const Input = (props) => {

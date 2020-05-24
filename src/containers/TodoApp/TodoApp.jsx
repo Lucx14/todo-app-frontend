@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
+import LoadingOverlay from 'react-loading-overlay';
 
 import { connect } from 'react-redux';
 import * as actions from '../../store/actions/index';
@@ -12,7 +13,15 @@ import { sortById } from '../../shared/utility';
 const Wrapper = styled.div`
   display: flex;
   height: 500px;
+  border-radius: 5px;
 `;
+
+const StyledLoader = styled(LoadingOverlay)`
+  ._loading_overlay_overlay {
+    border-radius: 5px;
+  }
+`;
+
 const ListWrapper = styled.div`
   position: relative;
   background-color: #f3f2f8;
@@ -94,6 +103,7 @@ const HeadingWrapper = styled.div`
 const Todos = (props) => {
   const {
     todos,
+    loading,
     onfetchTodos,
     onAddTodo,
     onRemoveTodo,
@@ -203,62 +213,64 @@ const Todos = (props) => {
   }
 
   return (
-    <Wrapper>
-      <ListWrapper>
-        <HeadingWrapper>My Lists</HeadingWrapper>
-        <div>{list}</div>
-        {formVisible && (
-          <NewListWrapper>
-            <Icon className="fas fa-list-ul fa-sm" />
-            <form onSubmit={submitNewList}>
-              <Input
-                type="text"
-                value={listTitleValue}
-                onChange={titleValueUpdateHandler}
-                name="new-list"
-                placeholder="Add title..."
-                autoFocus
-                onBlur={hideForm}
-              />
-            </form>
-          </NewListWrapper>
-        )}
-        <ControlsWrapper>
-          {!formVisible && (
-            <ActionButton clicked={addTodoHandler}>
-              <i className="fas fa-plus-circle" /> Add List
-            </ActionButton>
-          )}
+    <StyledLoader active={loading} spinner>
+      <Wrapper>
+        <ListWrapper>
+          <HeadingWrapper>My Lists</HeadingWrapper>
+          <div>{list}</div>
           {formVisible && (
-            <ActionButton clicked={hideForm}>
-              <i className="far fa-times-circle" /> Cancel
-            </ActionButton>
+            <NewListWrapper>
+              <Icon className="fas fa-list-ul fa-sm" />
+              <form onSubmit={submitNewList}>
+                <Input
+                  type="text"
+                  value={listTitleValue}
+                  onChange={titleValueUpdateHandler}
+                  name="new-list"
+                  placeholder="Add title..."
+                  autoFocus
+                  onBlur={hideForm}
+                />
+              </form>
+            </NewListWrapper>
           )}
-          {!trashVisible && (
-            <ActionButton clicked={showTrash}>
-              <i className="fas fa-minus-circle" /> Delete List
-            </ActionButton>
+          <ControlsWrapper>
+            {!formVisible && (
+              <ActionButton clicked={addTodoHandler}>
+                <i className="fas fa-plus-circle" /> Add List
+              </ActionButton>
+            )}
+            {formVisible && (
+              <ActionButton clicked={hideForm}>
+                <i className="far fa-times-circle" /> Cancel
+              </ActionButton>
+            )}
+            {!trashVisible && (
+              <ActionButton clicked={showTrash}>
+                <i className="fas fa-minus-circle" /> Delete List
+              </ActionButton>
+            )}
+            {trashVisible && (
+              <ActionButton clicked={hideTrash}>
+                <i className="far fa-times-circle" /> Cancel
+              </ActionButton>
+            )}
+          </ControlsWrapper>
+        </ListWrapper>
+        <ItemsWrapper>
+          {items && (
+            <Items
+              items={items}
+              todoId={selectedTodo.id}
+              todoTitle={selectedTodo.title}
+              clicked={addItemHandler}
+              toggleItemComplete={toggleItemCompleteHandler}
+              deleteItem={removeItemHandler}
+            />
           )}
-          {trashVisible && (
-            <ActionButton clicked={hideTrash}>
-              <i className="far fa-times-circle" /> Cancel
-            </ActionButton>
-          )}
-        </ControlsWrapper>
-      </ListWrapper>
-      <ItemsWrapper>
-        {items && (
-          <Items
-            items={items}
-            todoId={selectedTodo.id}
-            todoTitle={selectedTodo.title}
-            clicked={addItemHandler}
-            toggleItemComplete={toggleItemCompleteHandler}
-            deleteItem={removeItemHandler}
-          />
-        )}
-      </ItemsWrapper>
-    </Wrapper>
+        </ItemsWrapper>
+      </Wrapper>
+    </StyledLoader>
   );
 };
 
@@ -309,6 +321,7 @@ Todos.propTypes = {
   onUpdateItemStatus: PropTypes.func.isRequired,
   onRemoveItem: PropTypes.func.isRequired,
   onUpdateTodoTitle: PropTypes.func.isRequired,
+  loading: PropTypes.bool.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Todos);

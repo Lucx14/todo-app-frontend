@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Redirect } from 'react-router-dom';
+import LoadingOverlay from 'react-loading-overlay';
 
 import Input from '../../components/UI/Input/Input';
 import Button from '../../components/UI/Button/Button';
@@ -23,6 +24,16 @@ const Wrapper = styled.div`
   }
 `;
 
+const StyledLoader = styled(LoadingOverlay)`
+  ._loading_overlay_overlay {
+    border-radius: 5px;
+  }
+  margin: 20px auto;
+  @media (min-width: 600px) {
+    width: 500px;
+  }
+`;
+
 const StyledError = styled.div`
   color: #808080;
   padding: 5px;
@@ -34,7 +45,7 @@ const StyledIcon = styled.i`
 `;
 
 const Auth = (props) => {
-  const { onAuthInit, isAuthenticated, error } = props;
+  const { onAuthInit, isAuthenticated, error, loading } = props;
   const [authForm, setAuthForm] = useState({
     email: {
       elementType: 'input',
@@ -122,17 +133,19 @@ const Auth = (props) => {
   }
 
   return (
-    <Wrapper>
-      {authRedirect}
-      {errorMessage}
-      <form onSubmit={authSubmitHandler}>
-        {form}
-        <Button>
-          <StyledIcon className="fas fa-sign-in-alt" />
-          Log in
-        </Button>
-      </form>
-    </Wrapper>
+    <StyledLoader active={loading} spinner>
+      <Wrapper>
+        {authRedirect}
+        {errorMessage}
+        <form onSubmit={authSubmitHandler}>
+          {form}
+          <Button>
+            <StyledIcon className="fas fa-sign-in-alt" />
+            Log in
+          </Button>
+        </form>
+      </Wrapper>
+    </StyledLoader>
   );
 };
 
@@ -152,6 +165,7 @@ Auth.propTypes = {
   onAuthInit: PropTypes.func.isRequired,
   isAuthenticated: PropTypes.bool.isRequired,
   error: PropTypes.bool.isRequired,
+  loading: PropTypes.bool.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Auth);

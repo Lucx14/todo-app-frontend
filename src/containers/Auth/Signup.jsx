@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Redirect } from 'react-router-dom';
+import LoadingOverlay from 'react-loading-overlay';
 import * as actions from '../../store/actions/index';
 import Button from '../../components/UI/Button/Button';
 
@@ -17,6 +18,16 @@ const Wrapper = styled.div`
   border: 1px solid #eee;
   padding: 10px;
   box-sizing: border-box;
+  @media (min-width: 600px) {
+    width: 500px;
+  }
+`;
+
+const StyledLoader = styled(LoadingOverlay)`
+  ._loading_overlay_overlay {
+    border-radius: 5px;
+  }
+  margin: 20px auto;
   @media (min-width: 600px) {
     width: 500px;
   }
@@ -35,6 +46,7 @@ const StyledIcon = styled.i`
 const StyledInput = styled.input`
   width: 100%;
   box-sizing: border-box;
+  border-radius: 3px;
   outline: none;
   font: inherit;
   padding: 6px 10px;
@@ -62,7 +74,7 @@ const FieldWrapper = styled.div`
 `;
 
 const Signup = (props) => {
-  const { isAuthenticated, onAuthSignup, error } = props;
+  const { isAuthenticated, onAuthSignup, error, loading } = props;
 
   let authRedirect;
   if (isAuthenticated) {
@@ -79,106 +91,108 @@ const Signup = (props) => {
   }
 
   return (
-    <Wrapper>
-      {authRedirect}
-      {errorMessage}
-      <Formik
-        initialValues={{
-          name: '',
-          email: '',
-          password: '',
-          password_confirmation: '',
-        }}
-        validationSchema={Yup.object({
-          name: Yup.string()
-            .max(30, 'Must be 30 characters or less')
-            .required('Required'),
-          email: Yup.string()
-            .email('Invalid email address')
-            .required('Required'),
-          password: Yup.string()
-            .min(6, 'Must be 6 characters or more')
-            .required('Required'),
-          password_confirmation: Yup.string().required('Required'),
-        })}
-        onSubmit={(values, { setSubmitting }) => {
-          onAuthSignup(
-            values.name,
-            values.email,
-            values.password,
-            values.password_confirmation
-          );
-          setSubmitting(false);
-        }}
-      >
-        {({ errors, touched }) => {
-          return (
-            <Form>
-              <FieldWrapper>
-                <Field
-                  name="name"
-                  type="text"
-                  as={StyledInput}
-                  placeholder="Name"
-                  errors={errors.name && touched.name}
-                />
-                <StyledHelper errors={errors.name && touched.name}>
-                  <ErrorMessage name="name" />
-                </StyledHelper>
-              </FieldWrapper>
-              <FieldWrapper>
-                <Field
-                  name="email"
-                  type="email"
-                  as={StyledInput}
-                  placeholder="Email"
-                  errors={errors.email && touched.email}
-                />
-                <StyledHelper errors={errors.email && touched.email}>
-                  <ErrorMessage name="email" />
-                </StyledHelper>
-              </FieldWrapper>
-              <FieldWrapper>
-                <Field
-                  name="password"
-                  type="text"
-                  as={StyledInput}
-                  placeholder="Password"
-                  errors={errors.password && touched.password}
-                />
-                <StyledHelper errors={errors.password && touched.password}>
-                  <ErrorMessage name="password" />
-                </StyledHelper>
-              </FieldWrapper>
-              <FieldWrapper>
-                <Field
-                  name="password_confirmation"
-                  type="text"
-                  as={StyledInput}
-                  placeholder="Password Confirmation"
-                  errors={
-                    errors.password_confirmation &&
-                    touched.password_confirmation
-                  }
-                />
-                <StyledHelper
-                  errors={
-                    errors.password_confirmation &&
-                    touched.password_confirmation
-                  }
-                >
-                  <ErrorMessage name="password_confirmation" />
-                </StyledHelper>
-              </FieldWrapper>
-              <Button>
-                <StyledIcon className="fas fa-user-plus" />
-                Sign Up
-              </Button>
-            </Form>
-          );
-        }}
-      </Formik>
-    </Wrapper>
+    <StyledLoader active={loading} spinner>
+      <Wrapper>
+        {authRedirect}
+        {errorMessage}
+        <Formik
+          initialValues={{
+            name: '',
+            email: '',
+            password: '',
+            password_confirmation: '',
+          }}
+          validationSchema={Yup.object({
+            name: Yup.string()
+              .max(30, 'Must be 30 characters or less')
+              .required('Required'),
+            email: Yup.string()
+              .email('Invalid email address')
+              .required('Required'),
+            password: Yup.string()
+              .min(6, 'Must be 6 characters or more')
+              .required('Required'),
+            password_confirmation: Yup.string().required('Required'),
+          })}
+          onSubmit={(values, { setSubmitting }) => {
+            onAuthSignup(
+              values.name,
+              values.email,
+              values.password,
+              values.password_confirmation
+            );
+            setSubmitting(false);
+          }}
+        >
+          {({ errors, touched }) => {
+            return (
+              <Form>
+                <FieldWrapper>
+                  <Field
+                    name="name"
+                    type="text"
+                    as={StyledInput}
+                    placeholder="Name"
+                    errors={errors.name && touched.name}
+                  />
+                  <StyledHelper errors={errors.name && touched.name}>
+                    <ErrorMessage name="name" />
+                  </StyledHelper>
+                </FieldWrapper>
+                <FieldWrapper>
+                  <Field
+                    name="email"
+                    type="email"
+                    as={StyledInput}
+                    placeholder="Email"
+                    errors={errors.email && touched.email}
+                  />
+                  <StyledHelper errors={errors.email && touched.email}>
+                    <ErrorMessage name="email" />
+                  </StyledHelper>
+                </FieldWrapper>
+                <FieldWrapper>
+                  <Field
+                    name="password"
+                    type="text"
+                    as={StyledInput}
+                    placeholder="Password"
+                    errors={errors.password && touched.password}
+                  />
+                  <StyledHelper errors={errors.password && touched.password}>
+                    <ErrorMessage name="password" />
+                  </StyledHelper>
+                </FieldWrapper>
+                <FieldWrapper>
+                  <Field
+                    name="password_confirmation"
+                    type="text"
+                    as={StyledInput}
+                    placeholder="Password Confirmation"
+                    errors={
+                      errors.password_confirmation &&
+                      touched.password_confirmation
+                    }
+                  />
+                  <StyledHelper
+                    errors={
+                      errors.password_confirmation &&
+                      touched.password_confirmation
+                    }
+                  >
+                    <ErrorMessage name="password_confirmation" />
+                  </StyledHelper>
+                </FieldWrapper>
+                <Button>
+                  <StyledIcon className="fas fa-user-plus" />
+                  Sign Up
+                </Button>
+              </Form>
+            );
+          }}
+        </Formik>
+      </Wrapper>
+    </StyledLoader>
   );
 };
 
@@ -199,6 +213,7 @@ Signup.propTypes = {
   isAuthenticated: PropTypes.bool.isRequired,
   onAuthSignup: PropTypes.func.isRequired,
   error: PropTypes.bool.isRequired,
+  loading: PropTypes.bool.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Signup);
