@@ -7,7 +7,8 @@ import LoadingOverlay from 'react-loading-overlay';
 
 import Input from '../../components/UI/Input/Input';
 import Button from '../../components/UI/Button/Button';
-import updateObject, { checkValidity } from '../../shared/utility';
+import updateObject, { checkValidity, sortById } from '../../shared/utility';
+
 import * as actions from '../../store/actions/index';
 
 const Wrapper = styled.div`
@@ -105,7 +106,7 @@ const Auth = (props) => {
     });
   }
 
-  const form = formElementArray.map((formElement) => (
+  const form = sortById(formElementArray).map((formElement) => (
     <Input
       key={formElement.id}
       elementType={formElement.config.elementType}
