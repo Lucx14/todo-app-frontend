@@ -9,12 +9,26 @@ const Wrapper = styled.div`
   bottom: 0px;
   width: 100%;
   height: 5rem;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+`;
+
+const LinkTag = styled.a`
+  padding-top: 10px;
+  color: white;
+  text-decoration: none;
 `;
 
 const Footer = () => {
   return (
     <Wrapper>
-      <div />
+      <LinkTag href="https://github.com/Lucx14/todo-app-backend">
+        View backend code
+      </LinkTag>
+      <LinkTag href="https://github.com/Lucx14/todo-app-frontend">
+        View frontend code
+      </LinkTag>
     </Wrapper>
   );
 };
