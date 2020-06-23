@@ -13,11 +13,12 @@ export function* signUpSaga(action) {
       action.passwordConfirmation
     );
     const tokenExpirationDate = yield new Date(response.token_exp * 1000);
+    const msToExp = yield response.token_exp * 1000 - new Date().getTime();
     yield localStorage.setItem('token', response.auth_token);
     yield localStorage.setItem('tokenExpirationDate', tokenExpirationDate);
     yield localStorage.setItem('userId', response.user_id);
     yield put(actions.authSignupSuccess(response.auth_token));
-    yield put(actions.checkAuthTimeout(response.token_exp));
+    yield put(actions.checkAuthTimeout(msToExp));
   } catch (err) {
     yield put(actions.authSignupFail(err));
   }
@@ -29,11 +30,12 @@ export function* signInSaga(action) {
   try {
     const response = yield apiSignIn(action.email, action.password);
     const tokenExpirationDate = yield new Date(response.token_exp * 1000);
+    const msToExp = yield response.token_exp * 1000 - new Date().getTime();
     yield localStorage.setItem('token', response.auth_token);
     yield localStorage.setItem('tokenExpirationDate', tokenExpirationDate);
     yield localStorage.setItem('userId', response.user_id);
     yield put(actions.authSuccess(response.auth_token));
-    yield put(actions.checkAuthTimeout(response.token_exp));
+    yield put(actions.checkAuthTimeout(msToExp));
   } catch (err) {
     yield put(actions.authFail(err));
   }
@@ -61,7 +63,7 @@ export function* authCheckStateSaga() {
       yield put(actions.authSuccess(token));
       yield put(
         actions.checkAuthTimeout(
-          (expirationDate.getTime() - new Date().getTime()) / 1000
+          expirationDate.getTime() - new Date().getTime()
         )
       );
     }
@@ -69,6 +71,6 @@ export function* authCheckStateSaga() {
 }
 
 export function* checkAuthTimeoutSaga(action) {
-  yield delay(action.exp * 1000);
+  yield delay(action.exp);
   yield put(actions.logOut());
 }
