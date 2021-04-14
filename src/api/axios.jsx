@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const instance = axios.create({
-  baseURL: 'https://mysterious-reaches-53245.herokuapp.com/',
+  baseURL: 'https://guarded-reef-34413.herokuapp.com/',
   headers: {
     Accept: 'application/vnd.todos.v1+json',
   },
