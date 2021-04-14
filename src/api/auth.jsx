@@ -3,7 +3,7 @@ import getData from './helpers';
 
 export async function signIn(email, password) {
   return axios
-    .post('https://mysterious-reaches-53245.herokuapp.com/auth/login', {
+    .post('https://guarded-reef-34413.herokuapp.com/auth/login', {
       email,
       password,
     })
@@ -12,7 +12,7 @@ export async function signIn(email, password) {
 
 export async function signUp(name, email, password, passwordConfirmation) {
   return axios
-    .post('https://mysterious-reaches-53245.herokuapp.com/signup', {
+    .post('https://guarded-reef-34413.herokuapp.com/signup', {
       name,
       email,
       password,

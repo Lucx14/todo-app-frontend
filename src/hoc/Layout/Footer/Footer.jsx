@@ -23,7 +23,7 @@ const LinkTag = styled.a`
 const Footer = () => {
   return (
     <Wrapper>
-      <LinkTag href="https://github.com/Lucx14/todo-app-backend">
+      <LinkTag href="https://github.com/Lucx14/todo-backend-r">
         View backend code
       </LinkTag>
       <LinkTag href="https://github.com/Lucx14/todo-app-frontend">
